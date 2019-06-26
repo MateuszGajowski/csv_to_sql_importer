@@ -1,12 +1,13 @@
 package pl.gajowski.mateusz.csvimporter.common.editor;
 
 import org.springframework.util.StringUtils;
-import org.springframework.validation.DataBinder;
 
-import javax.xml.bind.DataBindingException;
+import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.Map;
 
 public class SafeLocalDateEditor extends PropertyEditorSupport {
 
@@ -35,8 +36,7 @@ public class SafeLocalDateEditor extends PropertyEditorSupport {
         }
     }
 
-    public static void register(DataBinder binder, String dateFormat) {
-        binder.registerCustomEditor(LocalDate.class, new SafeLocalDateEditor(dateFormat));
+    public static Map<Class<?>, PropertyEditor> create(String dateFormat) {
+        return Collections.singletonMap(LocalDate.class, new SafeLocalDateEditor(dateFormat));
     }
-
 }

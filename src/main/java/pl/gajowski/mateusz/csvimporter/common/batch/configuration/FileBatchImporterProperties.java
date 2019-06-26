@@ -1,4 +1,4 @@
-package pl.gajowski.mateusz.csvimporter.bond.batch.configuration;
+package pl.gajowski.mateusz.csvimporter.common.batch.configuration;
 
 import lombok.Data;
 

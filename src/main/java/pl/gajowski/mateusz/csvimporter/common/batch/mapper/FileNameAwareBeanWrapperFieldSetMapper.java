@@ -1,6 +1,7 @@
 package pl.gajowski.mateusz.csvimporter.common.batch.mapper;
 
 import lombok.SneakyThrows;
+import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.core.io.UrlResource;
 import org.springframework.validation.BindException;
@@ -10,7 +11,7 @@ import pl.gajowski.mateusz.csvimporter.common.batch.model.FileNameAwareItem;
 import java.net.URLDecoder;
 import java.util.Objects;
 
-public class FileNameAwareBeanWrapperFieldSetMapper<T> extends BeanWrapperFieldSetMapperCustom<T> {
+public class FileNameAwareBeanWrapperFieldSetMapper<T> extends BeanWrapperFieldSetMapper<T> {
     private String fileName;
 
     @Override
@@ -24,7 +25,6 @@ public class FileNameAwareBeanWrapperFieldSetMapper<T> extends BeanWrapperFieldS
 
     @SuppressWarnings("unchecked")
     public FileNameAwareBeanWrapperFieldSetMapper(String localDateFormat, UrlResource urlResource, Class targetType) {
-        super(localDateFormat);
         setTargetType(targetType);
         resolveFileName(urlResource);
     }

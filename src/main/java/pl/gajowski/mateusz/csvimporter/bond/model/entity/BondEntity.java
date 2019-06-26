@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Data
 public class BondEntity implements TableNameAwareEntity {
     private LocalDate scenarioDate;
-    private BigDecimal mvUnitNotional;
+    private BigDecimal mvUnit;
     private String isin;
     private String countryCode;
 

@@ -1,4 +1,4 @@
-package pl.gajowski.mateusz.csvimporter.common.batch.processor;
+package pl.gajowski.mateusz.csvimporter.common.batch.loggers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

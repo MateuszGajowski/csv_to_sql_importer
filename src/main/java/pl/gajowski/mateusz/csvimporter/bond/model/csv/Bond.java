@@ -22,8 +22,4 @@ public class Bond implements FileNameAwareItem {
     private String type;
     private Boolean zeroSimulation;
     private String fileName;
-
-    public String getCountryCode() {
-        return "EN";
-    }
 }

@@ -13,13 +13,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.gajowski.mateusz.csvimporter.bond.model.csv.Bond;
 import pl.gajowski.mateusz.csvimporter.bond.model.entity.BondEntity;
-import pl.gajowski.mateusz.csvimporter.common.batch.FileBatchImporter;
+import pl.gajowski.mateusz.csvimporter.common.batch.BatchJobCreator;
+import pl.gajowski.mateusz.csvimporter.common.batch.configuration.FileBatchImporterProperties;
+import pl.gajowski.mateusz.csvimporter.common.batch.loggers.JobExecutionTimeLogger;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableBatchProcessing
-public class BondBatchImporterConfiguration {
+public class BondBatchImporterJobConfiguration {
     @Autowired
     private JobBuilderFactory jobBuilderFactory;
     @Autowired
@@ -28,10 +30,11 @@ public class BondBatchImporterConfiguration {
     private DataSource dataSource;
 
     @Bean
-    public Job importBondJob(ItemWriter<BondEntity> bondItemWriter,
+    public Job importBondJob(ItemReader<Bond> bondReader,
                              ItemProcessor<Bond, BondEntity> bondItemProcessor,
-                             ItemReader<Bond> bondReader) throws Exception {
-        return FileBatchImporter.<Bond, BondEntity>builder()
+                             ItemWriter<BondEntity> bondItemWriter) {
+
+        return BatchJobCreator.<Bond, BondEntity>builder()
                 .jobBuilderFactory(jobBuilderFactory)
                 .stepBuilderFactory(stepBuilderFactory)
                 .itemReader(bondReader)
@@ -39,6 +42,9 @@ public class BondBatchImporterConfiguration {
                 .itemWriter(bondItemWriter)
                 .properties(bondConfigurationProperties())
                 .name("bond")
+                .multiResourcePartitioner()
+//                .stepEnricher(it -> it.listener(new ItemProcessLogger<>()))
+                .jobEnricher(it -> it.listener(new JobExecutionTimeLogger()))
                 .build()
                 .createJob();
     }
@@ -48,5 +54,4 @@ public class BondBatchImporterConfiguration {
     public FileBatchImporterProperties bondConfigurationProperties() {
         return new FileBatchImporterProperties();
     }
-
 }

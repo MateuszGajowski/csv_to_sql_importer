@@ -11,16 +11,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.classify.BackToBackPatternClassifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.gajowski.mateusz.csvimporter.common.batch.processor.TableNameResolver;
-import pl.gajowski.mateusz.csvimporter.bond.batch.processor.BondTableNameResolver;
-import pl.gajowski.mateusz.csvimporter.bond.model.entity.BondTable;
 import pl.gajowski.mateusz.csvimporter.bond.model.entity.BondEntity;
+import pl.gajowski.mateusz.csvimporter.bond.model.entity.BondTable;
 import pl.gajowski.mateusz.csvimporter.common.batch.writter.TableNameClassifier;
 
 import javax.sql.DataSource;
 
 @Configuration
-public class BondBatchWritterConfiguration {
+public class BondWriterConfiguration {
 
     @Autowired
     private DataSource dataSource;
@@ -28,7 +26,7 @@ public class BondBatchWritterConfiguration {
     @Bean
     @StepScope
     @SuppressWarnings("unchecked")
-    public ItemWriter<BondEntity> bondItemWriter(@Value("#{stepExecutionContext['fileName']}") String sourceFile) {
+    public ItemWriter<BondEntity> bondItemWriter() {
         final BackToBackPatternClassifier classifier = new BackToBackPatternClassifier();
         classifier.setRouterDelegate(new TableNameClassifier());
 
@@ -67,7 +65,7 @@ public class BondBatchWritterConfiguration {
     public ItemWriter<BondEntity> createItemWriter(BondTable bondTable) {
         return new JdbcBatchItemWriterBuilder<BondEntity>()
                 .sql("INSERT INTO " + bondTable.getTableName()
-                        + " (SCENARIO_DATE, MV_UNIT, ISIN, COUNTRY_CODE) VALUES (:scenarioDate, :mvUnitNotional, :isin, :countryCode)")
+                        + " (SCENARIO_DATE, MV_UNIT, ISIN, COUNTRY_CODE) VALUES (:scenarioDate, :mvUnit, :isin, :countryCode)")
                 .beanMapped()
                 .dataSource(dataSource)
                 .build();

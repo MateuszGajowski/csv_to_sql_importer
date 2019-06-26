@@ -20,7 +20,7 @@ public class BondItemProcessor implements ItemProcessor<Bond, BondEntity> {
 
         final BondEntity entity = new BondEntity();
         entity.setScenarioDate(item.getScenarioDate());
-        entity.setMvUnitNotional(item.getMvUnitNotional());
+        entity.setMvUnit(item.getMvUnitNotional());
         entity.setIsin(item.getIsin());
         entity.setCountryCode(StringUtils.left(item.getIsin(), 2));
         entity.setTableName(tableNameResolver.resolve(item.getFileName()));
