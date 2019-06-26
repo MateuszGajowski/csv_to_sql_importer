@@ -43,3 +43,8 @@ management:
 batch:
   bond:
     chunk: 256
+
+metrics:
+  console:
+    enabled: true
+    step: 15s
