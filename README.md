@@ -4,6 +4,7 @@ Simple Spring Boot project which imports .csv files to database.
 
 ### Useful commands
 gradlew bootRun - to start application
+
 gradlew test - run all tests
 
 ### Description
