@@ -7,10 +7,13 @@ gradlew bootRun - to start application
 
 gradlew test - run all tests
 
+Application runs on 8080 port.
+
 ### Description
 This application is mainly composed on top of Spring Batch. Files are read from 'input' directory and after processing are saved into database.
 
 File processing are done in multiple threads (each for one file). Each file are processed in chunks.
+
 ### Some of used frameworks and libraries
 - Spring Boot
 - Spring Batch (4.2.0.M1 with build in metrics)
@@ -31,6 +34,7 @@ Available properties to configure:
   - queueCapacity
   
 ### Useful endpoints
-All endpoints from /actuator all enabled.
-Prometheus endpoint is also configured if metrics are needed from batch processing.
+- All endpoints from /actuator all enabled.
+- Prometheus endpoint is also configured if metrics are needed from batch processing.
+- /h2 - to see database (user = 'sa'; password = 'sa')
 
